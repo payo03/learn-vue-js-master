@@ -1,7 +1,7 @@
 <template>
   <div>
-    <ul>
-      <li v-for="(todoItem, index) in todoItemList" v-bind:key="todoItem.key" class="shadow" v-on:click="toggleComplete(todoItem, index)">
+    <transition-group name="list" tag="ul">
+      <li v-for="(todoItem, index) in propsdata" v-bind:key="todoItem.key" class="shadow" v-on:click="completeTodo(todoItem, index)">
         <!-- <i class="fa-solid fa-circle"></i> -->
         <i :class="todoItem.completed? 'checkBtn fa-solid fa-circle-check' : 'checkBtn fa-solid fa-circle'"></i>
         <span v-bind:class="{textCompleted: todoItem.completed}">{{ todoItem.value }}</span>
@@ -9,48 +9,23 @@
           <i class="fa-solid fa-trash-can"></i>
         </span>
       </li>
-    </ul>
+    </transition-group>
   </div>
 </template>
 
 <script>
-import { eventBus } from '../main.js'
-
 export default {
-  data: function() {
-    return {
-      todoItemList: []
-    }
-  },
-  created: function() {
-    if(localStorage.length > 0) {
-      for(var i=0; i<localStorage.length; i++) {
-        if(localStorage.key(i) !== '') {
-          
-          this.todoItemList.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
-        }
-      }
-    }
-  },
-  mounted: function() {
-
-    eventBus.$on('addItem', obj => {
-      this.todoItemList.push(obj);
-    })
-
-    eventBus.$on('clearItem', () => {
-      this.todoItemList = [];
-    })
-  },
+  props: [
+    'propsdata'
+  ],
   methods: {
     removeTodo: function(todoItem, index) {
-      localStorage.removeItem(todoItem.key + 1);
-      this.todoItemList.splice(index, 1);
+      
+      this.$emit('removeTodo', todoItem, index);
     },
-    toggleComplete: function(todoItem) {
-      todoItem.completed = !todoItem.completed;
-      localStorage.removeItem(todoItem.key + 1);
-      localStorage.setItem(todoItem.key + 1, JSON.stringify(todoItem));
+    completeTodo: function(todoItem, index) {
+
+      this.$emit('completeTodo', todoItem, index);
     }
   }
 
@@ -98,4 +73,12 @@ li {
   cursor: pointer;
 }
 
+/* 리스트 아이템 Transition 효과 */
+.list-enter-active, .list-leave-active {
+  transition: all 0.4s;
+}
+.list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(30px);
+}
 </style>

@@ -7,7 +7,6 @@
   </div>
 </template>
 
-<script src="https://kit.fontawesome.com/84121534df.js" crossorigin="anonymous"></script>
 <script>
 import TodoHeader from './components/TodoHeader.vue'
 import TodoInput from './components/TodoInput.vue'
