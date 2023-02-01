@@ -1,9 +1,10 @@
 <template>
   <div>
     <ul>
-      <li v-for="(todoItem, index) in todoItemList" v-bind:key="todoItem.item" class="shadow">
-        <i class="checkBtn fas fa-check" v-on:click="toggleComplete(todoItem, index)" v-bind:class="{textCompleted: todoItem.completed}"></i>
-        <span v-bind:class="{textCompleted: todoItem.completed}">{{ todoItem.item }}</span>
+      <li v-for="(todoItem, index) in todoItemList" v-bind:key="todoItem.key" class="shadow" v-on:click="toggleComplete(todoItem, index)">
+        <!-- <i class="fa-solid fa-circle"></i> -->
+        <i :class="todoItem.completed? 'checkBtn fa-solid fa-circle-check' : 'checkBtn fa-solid fa-circle'"></i>
+        <span v-bind:class="{textCompleted: todoItem.completed}">{{ todoItem.value }}</span>
         <span class="removeBtn" v-on:click="removeTodo(todoItem, index)">
           <i class="fa-solid fa-trash-can"></i>
         </span>
@@ -24,7 +25,6 @@ export default {
   created: function() {
     if(localStorage.length > 0) {
       for(var i=0; i<localStorage.length; i++) {
-        
         if(localStorage.key(i) !== '') {
           
           this.todoItemList.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
@@ -34,8 +34,8 @@ export default {
   },
   mounted: function() {
 
-    eventBus.$on('transferItem', item => {
-      this.todoItemList.push(item);
+    eventBus.$on('transferItem', obj => {
+      this.todoItemList.push(obj);
     })
 
     eventBus.$on('clearItem', () => {
@@ -44,13 +44,13 @@ export default {
   },
   methods: {
     removeTodo: function(todoItem, index) {
-      localStorage.removeItem(todoItem);
+      localStorage.removeItem(todoItem.key + 1);
       this.todoItemList.splice(index, 1);
     },
     toggleComplete: function(todoItem) {
       todoItem.completed = !todoItem.completed;
-      localStorage.removeItem(todoItem.item);
-      localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
+      localStorage.removeItem(todoItem.key + 1);
+      localStorage.setItem(todoItem.key + 1, JSON.stringify(todoItem));
     }
   }
 
@@ -77,9 +77,9 @@ li {
 }
 
 .checkBtn {
-  line-height: 45px;
+  line-height: 50px;
   color: #62acde;
-  margin-right: 5px;
+  margin-right: 10px;
 }
 
 .checkBtnComplete {

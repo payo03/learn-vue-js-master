@@ -18,10 +18,16 @@ export default {
   },
   methods: {
     addTodo: function() {
+      var num = 0;
+      for(var data in localStorage) {
+        if(Number(data)) {
+          num = Math.max(num, data);
+        }
+      }
       if(this.inputData !== '') {
-        var obj = { completed: false, item: this.inputData };
+        var obj = { key: num, value: this.inputData, completed: false };
 
-        localStorage.setItem(this.inputData, JSON.stringify(obj));
+        localStorage.setItem(++num, JSON.stringify(obj));
         eventBus.$emit('transferItem', obj);
       }
 
