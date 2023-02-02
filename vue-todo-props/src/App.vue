@@ -18,12 +18,12 @@ import TodoFooter from './components/TodoFooter.vue'
 
 export default {
   name: 'App',
-  data: function() {
+  data() {
     return {
       todoItemList: []
     }
   },
-  created: function() {
+  created() {
     if(localStorage.length > 0) {
       for(var i=0; i<localStorage.length; i++) {
         if(localStorage.key(i) !== '') {
@@ -34,39 +34,39 @@ export default {
     }
   },
   components: {
-    'TodoHeader': TodoHeader,
-    'TodoInput': TodoInput,
-    'TodoList': TodoList,
-    'TodoFooter': TodoFooter
+    TodoHeader,
+    TodoInput,
+    TodoList,
+    TodoFooter
   },
   methods: {
-    addItem: function(inputData) {
-      var num = 0;
+    addItem(inputData) {
+      let num = 0;
       for(var data in localStorage) {
         if(Number(data)) {
           num = Math.max(num, data);
         }
       }
 
-      var obj = { key: num, value: inputData, completed: false };
+      const obj = { key: num, value: inputData, completed: false };
       if(this.inputData !== '') {
 
         localStorage.setItem(++num, JSON.stringify(obj));
         this.todoItemList.push(obj);
       }
     },
-    toggleItem: function(item, index) {
+    toggleItem(item, index) {
 
       this.todoItemList[index].completed = !this.todoItemList[index].completed;
       localStorage.removeItem(item.key + 1);
       localStorage.setItem(item.key + 1, JSON.stringify(item));
     },
-    removeItem: function(item, index) {
+    removeItem(item, index) {
 
       localStorage.removeItem(item.key + 1);
       this.todoItemList.splice(index, 1);
     },
-    removeItemList: function() {
+    removeItemList() {
       
       this.todoItemList = [];
       localStorage.clear();

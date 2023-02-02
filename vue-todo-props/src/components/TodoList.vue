@@ -19,11 +19,11 @@ export default {
     'propsdata'
   ],
   methods: {
-    removeTodo: function(todoItem, index) {
+    removeTodo(todoItem, index) {
       
       this.$emit('removeTodo', todoItem, index);
     },
-    completeTodo: function(todoItem, index) {
+    completeTodo(todoItem, index) {
 
       this.$emit('completeTodo', todoItem, index);
     }
