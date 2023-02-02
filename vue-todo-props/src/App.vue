@@ -20,7 +20,7 @@ export default {
   name: 'App',
   data() {
     return {
-      todoItemList: []
+      todoItemList: [] 
     }
   },
   created() {
