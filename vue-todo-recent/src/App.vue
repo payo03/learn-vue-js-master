@@ -20,7 +20,7 @@ export default {
   name: 'App',
   data() {
     return {
-      todoItemList: [] 
+      todoItemList: []
     }
   },
   created() {
@@ -62,8 +62,9 @@ export default {
       localStorage.setItem(item.key + 1, JSON.stringify(item));
     },
     removeItem(item, index) {
+      console.log(item, index);
 
-      localStorage.removeItem(item.key + 1);
+      localStorage.removeItem(item.key + 1);  // 동작안함
       this.todoItemList.splice(index, 1);
     },
     removeItemList() {

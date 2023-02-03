@@ -1,4 +1,4 @@
-# vue-todo-props
+# vue-todo-recent
 
 ## Project setup
 ```

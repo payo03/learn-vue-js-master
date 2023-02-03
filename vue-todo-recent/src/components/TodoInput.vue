@@ -7,13 +7,13 @@
 
     <modal v-if="showModal" @close="showModal = false">
 
-      <h3 slot="header">
+      <template v-slot:header>
         경고!
         <i class="closeModalBtn fa-solid fa-square-xmark" @click="showModal = false"></i>
-      </h3>
-      <div slot="body">
+      </template>
+      <template v-slot:body>
         아무것도 입력하지 않으셨습니다.
-      </div>
+      </template>
     </modal>
   </div>
 </template>
