@@ -1,4 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 
-createApp(App).mount('#app')
+// vuex
+import { store } from './store/store.js';
+
+createApp(App).use(store).mount('#app');
