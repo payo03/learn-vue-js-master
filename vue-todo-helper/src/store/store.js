@@ -1,4 +1,6 @@
 import Vuex from 'vuex';
+import * as getters from './getters.js';
+import * as mutations from './mutations.js';
 
 const storage = {
     fetch() {
@@ -27,37 +29,6 @@ export const store = new Vuex.Store({
             todoItemList: storage.fetch()
         }
     },
-    mutations: {
-        addItem(state, inputData) {
-            let num = 0;
-            for (var data in localStorage) {
-                if (Number(data)) {
-                    num = Math.max(num, data);
-                }
-            }
-
-            const obj = { key: num, value: inputData, completed: false };
-            if (this.inputData !== '') {
-
-                localStorage.setItem(++num, JSON.stringify(obj));
-                state.todoItemList.push(obj);
-            }
-        },
-        toggleItem(state, item) {
-
-            state.todoItemList[item.index].completed = !state.todoItemList[item.index].completed;
-            localStorage.removeItem(item.key + 1);
-            localStorage.setItem(item.key + 1, JSON.stringify(item));
-        },
-        removeItem(state, item) {
-
-            localStorage.removeItem(item.key + 1);
-            state.todoItemList.splice(item.index, 1);
-        },
-        removeItemList(state) {
-
-            state.todoItemList = [];
-            localStorage.clear();
-        }
-    }
+    getters,
+    mutations
 });
